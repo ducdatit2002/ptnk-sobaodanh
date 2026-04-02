@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  color: #0f172a;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(34, 211, 238, 0.24), transparent 24%),
+    radial-gradient(circle at 88% 8%, rgba(96, 165, 250, 0.22), transparent 28%),
+    linear-gradient(180deg, #f1faff 0%, #e5f6ff 45%, #edf8ff 100%);
+  font-family:
+    "Avenir Next",
+    "Segoe UI",
+    "Helvetica Neue",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.theme-dark {
+  color: #e5eef8;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(34, 211, 238, 0.12), transparent 20%),
+    radial-gradient(circle at 88% 10%, rgba(59, 130, 246, 0.16), transparent 24%),
+    linear-gradient(180deg, #020617 0%, #07111f 44%, #0f172a 100%);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0) 42%
+    ),
+    radial-gradient(circle at 82% 10%, rgba(14, 165, 233, 0.16), transparent 26%),
+    radial-gradient(circle at 12% 72%, rgba(45, 212, 191, 0.13), transparent 24%);
+  pointer-events: none;
+}
+
+html.theme-dark body::before {
+  background:
+    linear-gradient(
+      120deg,
+      rgba(15, 23, 42, 0.32),
+      rgba(15, 23, 42, 0) 42%
+    ),
+    radial-gradient(circle at 82% 10%, rgba(14, 165, 233, 0.1), transparent 22%),
+    radial-gradient(circle at 12% 72%, rgba(45, 212, 191, 0.08), transparent 18%);
+}
