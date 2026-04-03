@@ -101,7 +101,7 @@ function App() {
                       isDarkMode ? 'text-slate-300' : 'text-slate-600'
                     }`}
                   >
-                    Nhập đúng họ tên, CCCD và ngày sinh để kiểm tra thông tin khi hệ
+                    Nhập đúng họ tên, Số điện thoại, và ngày sinh để kiểm tra thông tin khi hệ
                     thống mở tra cứu.
                   </p>
                 </div>
@@ -127,7 +127,7 @@ function App() {
                       isDarkMode ? 'text-white' : 'text-slate-900'
                     }`}
                   >
-                    Họ tên + CCCD + Ngày sinh
+                    Họ tên + Số điện thoại + Ngày sinh
                   </p>
                 </div>
               </div>

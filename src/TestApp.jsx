@@ -166,8 +166,7 @@ function TestApp() {
                       }`}
                     >
                       Nhập đúng họ tên và ngày sinh để lấy dữ liệu từ Google
-                      Sheets, hiển thị giấy báo thi và in ra PDF theo mẫu. CCCD
-                      hiện có thể để trống.
+                      Sheets, hiển thị giấy báo thi và in ra PDF theo mẫu. 
                     </p>
                   </div>
                 </div>

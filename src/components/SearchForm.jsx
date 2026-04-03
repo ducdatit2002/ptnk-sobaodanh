@@ -213,7 +213,7 @@ function SearchForm({
             }`}
             htmlFor="citizenId"
           >
-            CCCD (nếu có)
+            Số điện thoại
           </label>
           <input
             id="citizenId"
