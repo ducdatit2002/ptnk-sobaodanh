@@ -68,3 +68,334 @@ html.theme-dark body::before {
     radial-gradient(circle at 82% 10%, rgba(14, 165, 233, 0.1), transparent 22%),
     radial-gradient(circle at 12% 72%, rgba(45, 212, 191, 0.08), transparent 18%);
 }
+
+.ticket-sheet {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  border-radius: 2rem;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+  padding: 2rem;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.ticket-print-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ticket-doc-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.35;
+  font-size: 1.05rem;
+}
+
+.ticket-doc-col {
+  flex: 1 1 0;
+}
+
+.ticket-doc-col p {
+  margin: 0;
+}
+
+.ticket-doc-underline {
+  display: inline-block;
+  width: 7rem;
+  margin-top: 0.4rem;
+  border-bottom: 2px solid #93c5fd;
+}
+
+.ticket-doc-title {
+  margin: 2rem 0 1.6rem;
+  text-align: center;
+}
+
+.ticket-doc-title h3 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.ticket-doc-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.ticket-doc-body p {
+  margin: 0 0 0.8rem;
+}
+
+.ticket-location-block {
+  margin-bottom: 0.8rem;
+}
+
+.ticket-location-block p {
+  margin-bottom: 0.25rem;
+}
+
+.ticket-exam-location {
+  display: block;
+}
+
+.ticket-exam-location-line {
+  display: block;
+  white-space: normal;
+}
+
+.ticket-highlight-line {
+  font-weight: 700;
+}
+
+.ticket-meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ticket-table-wrap {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.95rem;
+}
+
+.ticket-table th,
+.ticket-table td {
+  border: 1px solid #6b7280;
+  padding: 0.75rem 0.6rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ticket-row-label {
+  width: 116px;
+  font-weight: 700;
+}
+
+.ticket-cell-preline {
+  white-space: pre-line;
+}
+
+.ticket-room-cell {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.ticket-empty-state {
+  margin-top: 1rem;
+  border: 1px dashed #94a3b8;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  font-size: 0.96rem;
+  color: #475569;
+  background: #f8fafc;
+}
+
+.ticket-notes-sheet {
+  min-height: 720px;
+}
+
+.ticket-note-section {
+  padding: 0.35rem 0.4rem 0;
+}
+
+.ticket-notes-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 0 1.25rem;
+  font-size: 2.2rem;
+  line-height: 1.15;
+}
+
+.ticket-note-title-icon {
+  font-size: 2rem;
+}
+
+.ticket-note-list {
+  font-size: 1.08rem;
+  line-height: 1.72;
+}
+
+.ticket-note-list p {
+  margin: 0 0 0.8rem;
+}
+
+.ticket-note-emphasis {
+  color: #dc2626;
+}
+
+.ticket-note-link-line {
+  margin-top: -0.15rem;
+  margin-bottom: 1rem !important;
+}
+
+.ticket-note-link-line a,
+.ticket-contact-block a {
+  color: #1d4ed8;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.ticket-inline-link {
+  white-space: nowrap;
+}
+
+.ticket-contact-block {
+  margin-top: 1.35rem;
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.ticket-contact-block h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.95rem;
+  font-size: 1.28rem;
+}
+
+.ticket-contact-heading-icon {
+  font-size: 1.55rem;
+}
+
+.ticket-contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 0.5rem;
+}
+
+.ticket-contact-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  margin-bottom: 0.65rem;
+}
+
+.ticket-contact-bullet {
+  min-width: 0.6rem;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.ticket-contact-item-icon {
+  min-width: 2rem;
+  font-size: 1.55rem;
+}
+
+@media (max-width: 768px) {
+  .ticket-sheet {
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .ticket-doc-header,
+  .ticket-meta-row {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .ticket-doc-title {
+    margin-top: 1.5rem;
+  }
+
+  .ticket-doc-title h3 {
+    font-size: 1.6rem;
+  }
+
+  .ticket-table {
+    min-width: 760px;
+  }
+
+  .ticket-notes-title {
+    font-size: 1.55rem;
+  }
+
+  .ticket-note-list,
+  .ticket-contact-block {
+    font-size: 1rem;
+  }
+
+  .ticket-contact-block h4 {
+    font-size: 1.08rem;
+  }
+}
+
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    min-height: auto !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  .screen-only {
+    display: none !important;
+  }
+
+  .ticket-print-root {
+    display: block !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    backdrop-filter: none !important;
+  }
+
+  .ticket-print-area {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .ticket-print-stack {
+    gap: 0 !important;
+  }
+
+  .ticket-sheet {
+    max-width: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0 1mm;
+  }
+
+  .ticket-table th,
+  .ticket-table td {
+    padding: 0.55rem 0.45rem;
+  }
+
+  .ticket-sheet-first {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .ticket-notes-sheet {
+    min-height: auto;
+  }
+}

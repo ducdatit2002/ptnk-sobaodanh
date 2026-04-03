@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const EMPTY_FORM = {
   fullName: '',
@@ -9,7 +9,6 @@ const EMPTY_FORM = {
 
 const REQUIRED_MESSAGES = {
   fullName: 'Vui long nhap ho ten.',
-  citizenId: 'Vui long nhap CCCD.',
   birthDate: 'Vui long nhap ngay sinh.',
   captchaAnswer: 'Vui long nhap ket qua xac thuc.',
 };
@@ -46,14 +45,25 @@ function createCaptchaChallenge() {
   };
 }
 
-function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
+function SearchForm({
+  onSubmit,
+  isDarkMode,
+  isLocked = false,
+  loading = false,
+  submitLabel = 'Tra cứu',
+}) {
   const [formValues, setFormValues] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [captcha, setCaptcha] = useState(INITIAL_CAPTCHA_CHALLENGE);
-  const disabledControlClass = isLocked ? 'cursor-not-allowed opacity-70' : '';
+  const isBusy = isLocked || loading;
+  const disabledControlClass = isBusy ? 'cursor-not-allowed opacity-70' : '';
+
+  useEffect(() => {
+    setCaptcha(createCaptchaChallenge());
+  }, []);
 
   const refreshCaptcha = () => {
-    if (isLocked) {
+    if (isBusy) {
       return;
     }
 
@@ -74,10 +84,6 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
 
     if (!values.fullName) {
       nextErrors.fullName = REQUIRED_MESSAGES.fullName;
-    }
-
-    if (!values.citizenId) {
-      nextErrors.citizenId = REQUIRED_MESSAGES.citizenId;
     }
 
     if (!values.birthDate) {
@@ -124,7 +130,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
     setErrors((currentErrors) => {
       const nextErrors = { ...currentErrors };
 
-      if (!normalizedValue) {
+      if (!normalizedValue && REQUIRED_MESSAGES[name]) {
         nextErrors[name] = REQUIRED_MESSAGES[name];
       } else if (name === 'captchaAnswer' && normalizedValue !== captcha.answer) {
         nextErrors[name] = 'Ket qua xac thuc chua dung.';
@@ -139,7 +145,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (isLocked) {
+    if (isBusy) {
       return;
     }
 
@@ -188,7 +194,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
             onChange={handleChange}
             placeholder="Nhập họ tên học sinh"
             autoComplete="name"
-            disabled={isLocked}
+            disabled={isBusy}
             className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${
               isDarkMode
                 ? 'border-slate-700 bg-slate-900/75 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:bg-slate-900'
@@ -207,7 +213,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
             }`}
             htmlFor="citizenId"
           >
-            CCCD
+            CCCD (nếu có)
           </label>
           <input
             id="citizenId"
@@ -217,18 +223,15 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
             value={formValues.citizenId}
             onBlur={handleBlur}
             onChange={handleChange}
-            placeholder="Nhập số CCCD"
+            placeholder="Có thể để trống nếu chưa có dữ liệu"
             autoComplete="off"
-            disabled={isLocked}
+            disabled={isBusy}
             className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${
               isDarkMode
                 ? 'border-slate-700 bg-slate-900/75 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:bg-slate-900'
                 : 'border-sky-100 bg-sky-50/80 text-slate-900 placeholder:text-slate-400 focus:border-cyan-400 focus:bg-sky-50'
             }`}
           />
-          {errors.citizenId ? (
-            <p className="text-sm text-rose-500">{errors.citizenId}</p>
-          ) : null}
         </div>
 
         <div className="space-y-1.5">
@@ -249,7 +252,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
             onChange={handleChange}
             placeholder="Ví dụ: 14/04/2011"
             autoComplete="bday"
-            disabled={isLocked}
+            disabled={isBusy}
             className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${
               isDarkMode
                 ? 'border-slate-700 bg-slate-900/75 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:bg-slate-900'
@@ -289,7 +292,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
             <button
               type="button"
               onClick={refreshCaptcha}
-              disabled={isLocked}
+              disabled={isBusy}
               className={`rounded-2xl border px-3 py-2 text-sm font-medium transition ${disabledControlClass} ${
                 isDarkMode
                   ? 'border-slate-700 bg-slate-950/70 text-slate-200 hover:border-cyan-400/30'
@@ -311,7 +314,7 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
               onChange={handleChange}
               placeholder="Nhập kết quả"
               autoComplete="off"
-              disabled={isLocked}
+              disabled={isBusy}
               className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${
                 isDarkMode
                   ? 'border-slate-700 bg-slate-950/75 text-white placeholder:text-slate-500 focus:border-cyan-400'
@@ -326,14 +329,14 @@ function SearchForm({ onSubmit, isDarkMode, isLocked = false }) {
 
         <button
           type="submit"
-          disabled={isLocked}
+          disabled={isBusy}
           className={`inline-flex w-full items-center justify-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold text-white transition ${disabledControlClass} ${
             isDarkMode
               ? 'bg-[linear-gradient(135deg,_#0891b2,_#2563eb)] shadow-[0_18px_40px_rgba(37,99,235,0.28)]'
               : 'bg-[linear-gradient(135deg,_#22d3ee,_#2492ff)] shadow-[0_18px_40px_rgba(34,211,238,0.28)]'
           }`}
         >
-          Tra cứu
+          {loading ? 'Đang tra cứu...' : submitLabel}
         </button>
       </form>
 
