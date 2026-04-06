@@ -69,7 +69,7 @@ export const EXAM_VENUE_DEFINITIONS = [
   },
   {
     code: 'PTNK',
-    label: 'Trường Phổ Thông Năng Khiếu - ĐHQG-HCM (Cơ sở An Đông), 153 Nguyễn Chí Thanh, phường An Đông, TP. HCM. (PTNK)',
+    label: 'Trường Phổ thông Năng khiếu - ĐHQG-HCM (Cơ sở An Đông), 153 Nguyễn Chí Thanh, phường An Đông, TP. HCM. (PTNK)',
   },
 ];
 
@@ -128,7 +128,7 @@ function normalizeScheduleEntry(entry) {
   }
 
   return {
-    subject: subject || 'Môn thi',
+    subject: subject || 'Môn thi thử',
     checkIn,
     room,
   };
@@ -278,7 +278,7 @@ export function splitExamLocationLines(value) {
     .flatMap((line) =>
       line
         .split(
-          /(?<=\(HCE\))(?=Trường)|(?<=\(HCE\))(?=153)|(?<=\(PTNK\))(?=Trường)|(?<=\(PTNK\))(?=153)|(?=Trường Phổ Thông Năng Khiếu\b)|(?=153 Nguyễn Chí Thanh\b)/g,
+          /(?<=\(HCE\))(?=Trường)|(?<=\(HCE\))(?=153)|(?<=\(PTNK\))(?=Trường)|(?<=\(PTNK\))(?=153)|(?=Trường Phổ thông Năng khiếu\b)|(?=153 Nguyễn Chí Thanh\b)/g,
         )
         .map((part) => part.trim())
         .filter(Boolean),
@@ -287,12 +287,7 @@ export function splitExamLocationLines(value) {
   return splitLines.length > 0 ? splitLines : [source];
 }
 
-export function extractAdmissionTicket(responsePayload) {
-  const payload =
-    responsePayload?.data ||
-    responsePayload?.result ||
-    responsePayload?.student ||
-    responsePayload;
+function extractAdmissionTicketFromPayload(payload) {
   const schedule = mergeWithDefaultExamSchedule(
     payload?.schedule || payload?.examSchedule || payload?.subjects,
   );
@@ -328,6 +323,34 @@ export function extractAdmissionTicket(responsePayload) {
   };
 }
 
+export function extractAdmissionTicket(responsePayload) {
+  const payload =
+    responsePayload?.data ||
+    responsePayload?.result ||
+    responsePayload?.student ||
+    responsePayload;
+
+  if (Array.isArray(payload)) {
+    return extractAdmissionTicketFromPayload(payload[0] || {});
+  }
+
+  return extractAdmissionTicketFromPayload(payload || {});
+}
+
+export function extractAdmissionTickets(responsePayload) {
+  const payload =
+    responsePayload?.data ||
+    responsePayload?.result ||
+    responsePayload?.student ||
+    responsePayload;
+
+  if (Array.isArray(payload)) {
+    return payload.map((item) => extractAdmissionTicketFromPayload(item));
+  }
+
+  return payload ? [extractAdmissionTicketFromPayload(payload)] : [];
+}
+
 function toSlug(value) {
   return removeDiacritics(value)
     .replace(/[^a-zA-Z0-9]+/g, '-')
@@ -343,7 +366,7 @@ export function getAdmissionCardHeading() {
 export function createAdmissionTicketFileName(result) {
   const namePart = toSlug(result?.fullName || 'thi-sinh') || 'thi-sinh';
   const sbdPart = toSlug(result?.sbd || 'khong-co-sbd') || 'khong-co-sbd';
-  const titlePart = toSlug(getAdmissionCardHeading()) || 'giay-bao-thi';
+  const titlePart = toSlug(getAdmissionCardHeading()) || 'giay-bao-thi-thu';
 
   return `${sbdPart}-${namePart}-${titlePart}-PTNK-HUB`;
 }

@@ -1,4 +1,4 @@
-import { extractAdmissionTicket } from './admitCard';
+import { extractAdmissionTickets } from './admitCard';
 
 const LOOKUP_API_URL =
   process.env.NEXT_PUBLIC_DOWNLOAD_SBD_LOOKUP_API_URL || '/test/api/lookup';
@@ -17,7 +17,7 @@ async function readJsonSafely(response) {
   }
 }
 
-export async function lookupAdmissionTicket({ fullName, citizenId, birthDate }) {
+export async function lookupAdmissionTicket({ fullName, citizenId }) {
   const response = await fetch(LOOKUP_API_URL, {
     method: 'POST',
     headers: {
@@ -26,7 +26,6 @@ export async function lookupAdmissionTicket({ fullName, citizenId, birthDate }) 
     body: JSON.stringify({
       fullName,
       citizenId,
-      birthDate,
     }),
   });
 
@@ -40,5 +39,5 @@ export async function lookupAdmissionTicket({ fullName, citizenId, birthDate }) 
     throw new Error(payload?.message || 'Khong the tra cuu du lieu luc nay.');
   }
 
-  return extractAdmissionTicket(payload);
+  return extractAdmissionTickets(payload);
 }

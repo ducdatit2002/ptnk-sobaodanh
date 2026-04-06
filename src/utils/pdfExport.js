@@ -371,7 +371,7 @@ function drawPageOne(page, result, regularFont, boldFont) {
 
   drawLeftText(
     page,
-    'Có mặt tại địa điểm sau để dự thi:',
+    'Có mặt tại địa điểm sau để dự thi thử:',
     50,
     285,
     regularFont,
@@ -422,9 +422,9 @@ function drawPageOne(page, result, regularFont, boldFont) {
   });
 
   const rowLabels = [
-    'Môn thi',
-    'Thời gian\ncó mặt tại\nPhòng thi',
-    'Phòng thi',
+    'Môn thi thử',
+    'Thời gian\ncó mặt tại\nPhòng thi thử',
+    'Phòng thi thử',
   ];
 
   let rowTop = tableTop;
@@ -494,26 +494,26 @@ function drawPageTwo(page, regularFont, boldFont) {
     [
       { text: '- Thí sinh vui lòng in ', bold: false },
       { text: 'GIẤY BÁO THI THỬ', bold: true },
-      { text: ' và mang theo khi đi thi.', bold: false },
+      { text: ' và mang theo khi đi thi thử.', bold: false },
     ],
     [
-      { text: '- Để đảm bảo kỳ thi diễn ra suôn sẻ, thí sinh cần có mặt ', bold: false },
-      { text: 'trước giờ thi ít nhất 30 phút', bold: true },
+      { text: '- Để đảm bảo kỳ thi thử diễn ra suôn sẻ, thí sinh cần có mặt ', bold: false },
+      { text: 'trước giờ thi thử ít nhất 30 phút', bold: true },
       { text: ', mang theo ', bold: false },
       { text: 'giấy báo thi thử', bold: false, color: RED },
       { text: '.', bold: false },
     ],
     [
-      { text: '- Thí sinh có đăng ký dự thi môn Tiếng Anh ', bold: false },
+      { text: '- Thí sinh có đăng ký dự thi thử môn Tiếng Anh ', bold: false },
       { text: '(Chuyên và Không chuyên)', bold: false, color: RED },
       { text: ': cần mang theo ', bold: false },
       { text: 'bút chì 2B', bold: true },
       { text: ' để tô đáp án phần Trắc nghiệm.', bold: false },
     ],
     [
-      { text: '- Đề thi, đáp án và kết quả sẽ được công bố ', bold: false },
+      { text: '- Đề thi thử, đáp án và kết quả sẽ được công bố ', bold: false },
       {
-        text: 'trong vòng 10 ngày làm việc kể từ ngày kết thúc kỳ thi',
+        text: 'trong vòng 10 ngày làm việc kể từ ngày kết thúc kỳ thi thử',
         bold: true,
       },
       {
@@ -549,7 +549,7 @@ function drawPageTwo(page, regularFont, boldFont) {
 
   currentY = drawWrappedText(
     page,
-    '- Phụ huynh và học sinh có thể đến nhận lại bài thi trong vòng 03 ngày: 8g00-20g00 ngày 10, 11 và 12/4/2026. Trung tâm không giải quyết các trường hợp nhận lại bài thi ngoài khung thời gian trên.',
+    '- Phụ huynh và học sinh có thể đến nhận lại bài thi thử trong vòng 03 ngày: 8g00-20g00 ngày 10, 11 và 12/4/2026. Trung tâm không giải quyết các trường hợp nhận lại bài thi thử ngoài khung thời gian trên.',
     48,
     currentY,
     740,
@@ -578,15 +578,14 @@ function drawPageTwo(page, regularFont, boldFont) {
 
   contacts.forEach(([label, value], index) => {
     drawLeftText(page, '•', 72, currentY, boldFont, 18);
-    drawLeftText(page, label, 102, currentY, regularFont, 16);
+    const labelX = 102;
+    const valueX = labelX + regularFont.widthOfTextAtSize(label, 16) + 8;
+
+    drawLeftText(page, label, labelX, currentY, regularFont, 16);
     drawLeftText(
       page,
       value,
-      label === 'Fanpage: '
-        ? 168
-        : label === 'Email: '
-          ? 145
-          : 185,
+      valueX,
       currentY,
       label === 'Fanpage: ' ? regularFont : boldFont,
       16,

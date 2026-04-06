@@ -47,16 +47,13 @@ export async function POST(request) {
   const citizenId = String(body?.citizenId || '')
     .trim()
     .replace(/\s+/g, ' ');
-  const birthDate = String(body?.birthDate || '')
-    .trim()
-    .replace(/\s+/g, ' ');
 
-  if (!fullName || !birthDate) {
+  if (!fullName) {
     return json(
       {
         ok: false,
         code: 'BAD_REQUEST',
-        message: 'Ho ten va ngay sinh khong duoc de trong.',
+        message: 'Ho ten khong duoc de trong.',
       },
       { status: 400 },
     );
@@ -67,11 +64,10 @@ export async function POST(request) {
       lookupAdmissionTicket({
         fullName,
         citizenId,
-        birthDate,
       }),
     );
 
-    if (!student) {
+    if (!student || student.length === 0) {
       return json(
         {
           ok: false,
@@ -85,6 +81,7 @@ export async function POST(request) {
     return json({
       ok: true,
       data: student,
+      total: student.length,
     });
   } catch (error) {
     if (error instanceof QueueFullError || error instanceof QueueTimeoutError) {

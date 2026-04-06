@@ -3,13 +3,11 @@ import { useEffect, useState } from 'react';
 const EMPTY_FORM = {
   fullName: '',
   citizenId: '',
-  birthDate: '',
   captchaAnswer: '',
 };
 
 const REQUIRED_MESSAGES = {
   fullName: 'Vui long nhap ho ten.',
-  birthDate: 'Vui long nhap ngay sinh.',
   captchaAnswer: 'Vui long nhap ket qua xac thuc.',
 };
 
@@ -86,10 +84,6 @@ function SearchForm({
       nextErrors.fullName = REQUIRED_MESSAGES.fullName;
     }
 
-    if (!values.birthDate) {
-      nextErrors.birthDate = REQUIRED_MESSAGES.birthDate;
-    }
-
     if (!values.captchaAnswer) {
       nextErrors.captchaAnswer = REQUIRED_MESSAGES.captchaAnswer;
     } else if (values.captchaAnswer !== captcha.answer) {
@@ -152,7 +146,6 @@ function SearchForm({
     const normalizedValues = {
       fullName: normalizeText(formValues.fullName),
       citizenId: normalizeText(formValues.citizenId),
-      birthDate: normalizeText(formValues.birthDate),
       captchaAnswer: normalizeText(formValues.captchaAnswer),
     };
 
@@ -223,7 +216,7 @@ function SearchForm({
             value={formValues.citizenId}
             onBlur={handleBlur}
             onChange={handleChange}
-            placeholder="Có thể để trống nếu chưa có dữ liệu"
+            placeholder="Nhập số điện thoại (không bắt buộc)"
             autoComplete="off"
             disabled={isBusy}
             className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${
@@ -232,36 +225,6 @@ function SearchForm({
                 : 'border-sky-100 bg-sky-50/80 text-slate-900 placeholder:text-slate-400 focus:border-cyan-400 focus:bg-sky-50'
             }`}
           />
-        </div>
-
-        <div className="space-y-1.5">
-          <label
-            className={`text-sm font-medium tracking-wide ${
-              isDarkMode ? 'text-slate-200' : 'text-slate-700'
-            }`}
-            htmlFor="birthDate"
-          >
-            Ngày sinh
-          </label>
-          <input
-            id="birthDate"
-            name="birthDate"
-            type="text"
-            value={formValues.birthDate}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            placeholder="Ví dụ: 14/04/2011"
-            autoComplete="bday"
-            disabled={isBusy}
-            className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${
-              isDarkMode
-                ? 'border-slate-700 bg-slate-900/75 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:bg-slate-900'
-                : 'border-sky-100 bg-sky-50/80 text-slate-900 placeholder:text-slate-400 focus:border-cyan-400 focus:bg-sky-50'
-            }`}
-          />
-          {errors.birthDate ? (
-            <p className="text-sm text-rose-500">{errors.birthDate}</p>
-          ) : null}
         </div>
 
         <div

@@ -72,7 +72,7 @@ function App() {
                         : 'border-sky-200 bg-sky-100/80 text-sky-700'
                     }`}
                   >
-                    Hệ thống tra cứu số báo danh và lịch thi
+                    Hệ thống tra cứu số báo danh và lịch thi thử
                   </span>
                   <ThemeToggle
                     isDarkMode={isDarkMode}
@@ -94,15 +94,15 @@ function App() {
                       isDarkMode ? 'text-white' : 'text-slate-900'
                     }`}
                   >
-                    Tra cứu số báo danh và lịch thi.
+                    Tra cứu số báo danh và lịch thi thử.
                   </h1>
                   <p
                     className={`max-w-xl text-base leading-7 sm:text-lg ${
                       isDarkMode ? 'text-slate-300' : 'text-slate-600'
                     }`}
                   >
-                    Nhập đúng họ tên, Số điện thoại, và ngày sinh để kiểm tra thông tin khi hệ
-                    thống mở tra cứu.
+                    Nhập đúng họ tên và số điện thoại nếu đã có dữ liệu để kiểm
+                    tra thông tin khi hệ thống mở tra cứu.
                   </p>
                 </div>
               </div>
@@ -127,7 +127,7 @@ function App() {
                       isDarkMode ? 'text-white' : 'text-slate-900'
                     }`}
                   >
-                    Họ tên + Số điện thoại + Ngày sinh
+                    Họ tên + Số điện thoại (nếu có)
                   </p>
                 </div>
               </div>

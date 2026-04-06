@@ -5,9 +5,7 @@ import AdmissionTicketCard from './components/AdmissionTicketCard';
 import SchoolBanner from './components/SchoolBanner';
 import SearchForm from './components/SearchForm';
 import ThemeToggle from './components/ThemeToggle';
-import {
-  ADMISSION_CARD_SUBTITLE,
-} from './utils/admitCard';
+import { ADMISSION_CARD_SUBTITLE } from './utils/admitCard';
 import { lookupAdmissionTicket } from './utils/admitCardApi';
 import { exportAdmissionTicketPdf } from './utils/pdfExport';
 
@@ -47,10 +45,12 @@ function TestApp() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [result, setResult] = useState(null);
+  const [results, setResults] = useState([]);
+  const [activeResultIndex, setActiveResultIndex] = useState(0);
   const [status, setStatus] = useState('idle');
   const [hasMounted, setHasMounted] = useState(false);
   const [exportingPdf, setExportingPdf] = useState(false);
+  const result = results[activeResultIndex] || null;
 
   useEffect(() => {
     setIsDarkMode(getPreferredTheme());
@@ -73,14 +73,16 @@ function TestApp() {
   const handleSearch = async (values) => {
     setLoading(true);
     setError('');
-    setResult(null);
+    setResults([]);
+    setActiveResultIndex(0);
     setStatus('idle');
 
     try {
-      const ticket = await lookupAdmissionTicket(values);
+      const tickets = await lookupAdmissionTicket(values);
 
-      if (ticket) {
-        setResult(ticket);
+      if (tickets && tickets.length > 0) {
+        setResults(tickets);
+        setActiveResultIndex(0);
         setStatus('success');
         return;
       }
@@ -92,6 +94,14 @@ function TestApp() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleNextResult = () => {
+    if (results.length <= 1) {
+      return;
+    }
+
+    setActiveResultIndex((currentIndex) => (currentIndex + 1) % results.length);
   };
 
   const handlePrint = async () => {
@@ -136,7 +146,7 @@ function TestApp() {
                           : 'border-sky-200 bg-sky-100/80 text-sky-700'
                       }`}
                     >
-                      Hệ thống tra cứu giấy báo thi
+                      Hệ thống tra cứu giấy báo thi thử
                     </span>
                     <ThemeToggle
                       isDarkMode={isDarkMode}
@@ -158,15 +168,16 @@ function TestApp() {
                         isDarkMode ? 'text-white' : 'text-slate-900'
                       }`}
                     >
-                      Tra cứu phiếu báo danh và giấy báo thi.
+                      Tra cứu phiếu báo danh và giấy báo thi thử.
                     </h1>
                     <p
                       className={`max-w-xl text-base leading-7 sm:text-lg ${
                         isDarkMode ? 'text-slate-300' : 'text-slate-600'
                       }`}
                     >
-                      Nhập đúng họ tên và ngày sinh để lấy dữ liệu từ Google
-                      Sheets, hiển thị giấy báo thi và in ra PDF theo mẫu. 
+                      Nhập đúng họ tên và số điện thoại nếu đã có dữ liệu trong
+                      Google Sheets để hiển thị giấy báo thi thử và tải xuống
+                      theo mẫu.
                     </p>
                   </div>
                 </div>
@@ -191,7 +202,7 @@ function TestApp() {
                         isDarkMode ? 'text-white' : 'text-slate-900'
                       }`}
                     >
-                      Họ tên + Ngày sinh
+                      Họ tên + Số điện thoại (nếu có)
                     </p>
                   </div>
                 </div>
@@ -215,7 +226,7 @@ function TestApp() {
                     loading={loading}
                     onSubmit={handleSearch}
                     isDarkMode={isDarkMode}
-                    submitLabel="Tra cứu giấy báo thi"
+                    submitLabel="Tra cứu giấy báo thi thử"
                   />
 
                   {error ? (
@@ -238,6 +249,9 @@ function TestApp() {
 
         <AdmissionTicketCard
           result={result}
+          currentResultIndex={activeResultIndex}
+          totalResults={results.length}
+          onNextResult={handleNextResult}
           status={status}
           isDarkMode={isDarkMode}
           onPrint={handlePrint}

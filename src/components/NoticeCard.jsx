@@ -22,19 +22,21 @@ function NoticeCard({ isDarkMode }) {
           Thông báo
         </p>
         <h2
+          suppressHydrationWarning
           className={`mt-3 text-2xl font-semibold ${
             isDarkMode ? 'text-rose-50' : 'text-rose-800'
           }`}
         >
-          Số báo danh và lịch thi sẽ được cung cấp vào 14h ngày 7/5/2026.
+          Số báo danh và lịch thi thử sẽ được cung cấp vào 14h ngày 7/5/2026.
         </h2>
         <p
+          suppressHydrationWarning
           className={`mx-auto mt-3 max-w-2xl text-sm sm:text-base ${
             isDarkMode ? 'text-rose-100/90' : 'text-rose-700'
           }`}
         >
-          Vui lòng quay lại sau thời điểm mở tra cứu để xem số báo danh và lịch thi
-          tương ứng với thông tin đã nhập.
+          Vui lòng quay lại sau thời điểm mở tra cứu để xem số báo danh và lịch
+          thi thử tương ứng với thông tin đã nhập.
         </p>
       </div>
     </section>

@@ -5,6 +5,9 @@ import {
 
 function AdmissionTicketCard({
   result,
+  currentResultIndex = 0,
+  totalResults = 0,
+  onNextResult,
   status,
   isDarkMode,
   onPrint,
@@ -35,14 +38,14 @@ function AdmissionTicketCard({
               isDarkMode ? 'text-amber-100' : 'text-amber-900'
             }`}
           >
-            Không tìm thấy giấy báo thi
+            Không tìm thấy giấy báo thi thử
           </p>
           <p
             className={`mt-2 text-sm ${
               isDarkMode ? 'text-amber-200' : 'text-amber-700'
             }`}
           >
-            Vui lòng kiểm tra lại họ tên và ngày sinh trước khi tra cứu lại.
+            Vui lòng kiểm tra lại họ tên và số điện thoại trước khi tra cứu lại.
           </p>
         </div>
       </section>
@@ -77,23 +80,30 @@ function AdmissionTicketCard({
           >
             {result.fullName || 'Chưa có họ tên'}
           </h2>
-          <p
-            className={`text-sm ${
-              isDarkMode ? 'text-slate-300' : 'text-slate-600'
-            }`}
-          >
-            Có thể bấm <strong>Xuất PDF</strong> để tải file PDF trực tiếp, không
-            kèm ngày giờ hay địa chỉ website của trình duyệt.
-          </p>
         </div>
 
         <div className="flex flex-wrap gap-3">
           <InfoPill label="SBD" value={result.sbd || '--'} isDarkMode={isDarkMode} />
-          <InfoPill
-            label="Lịch thi"
-            value={`${result.schedule.length} môn`}
-            isDarkMode={isDarkMode}
-          />
+          {totalResults > 1 ? (
+            <InfoPill
+              label="Hồ sơ"
+              value={`${currentResultIndex + 1}/${totalResults}`}
+              isDarkMode={isDarkMode}
+            />
+          ) : null}
+          {totalResults > 1 ? (
+            <button
+              type="button"
+              onClick={onNextResult}
+              className={`inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition ${
+                isDarkMode
+                  ? 'border border-slate-700 bg-slate-900/75 text-slate-100 shadow-[0_18px_40px_rgba(15,23,42,0.22)]'
+                  : 'border border-sky-100 bg-white/90 text-sky-800 shadow-[0_18px_40px_rgba(125,211,252,0.16)]'
+              }`}
+            >
+              Next
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onPrint}
@@ -104,7 +114,7 @@ function AdmissionTicketCard({
                 : 'bg-[linear-gradient(135deg,_#22d3ee,_#2492ff)] shadow-[0_18px_40px_rgba(34,211,238,0.28)]'
             } ${exportingPdf ? 'cursor-wait opacity-70' : ''}`}
           >
-            {exportingPdf ? 'Đang xuất PDF...' : 'Xuất PDF'}
+            {exportingPdf ? 'Đang tải xuống...' : 'Tải giấy báo thi thử'}
           </button>
         </div>
       </div>
@@ -147,16 +157,12 @@ function AdmissionTicketCard({
             </p>
 
             <div className="ticket-location-block">
-              <p>Có mặt tại địa điểm sau để dự thi:</p>
+              <p>Có mặt tại địa điểm sau để dự thi thử:</p>
               <strong className="ticket-exam-location">
                 {renderLocationLines(result.examLocation)}
               </strong>
             </div>
 
-            {/* <p className="ticket-highlight-line">
-              Phụ huynh có thể truy cập hệ thống tra cứu vào{' '}
-              <strong>14h ngày 7/5/2026</strong>.
-            </p> */}
           </div>
 
           <div className="ticket-table-wrap">
@@ -164,7 +170,7 @@ function AdmissionTicketCard({
               <tbody>
                 <tr>
                   <th className="ticket-row-label" scope="row">
-                    Môn thi
+                    Môn thi thử
                   </th>
                   {result.schedule.map((entry, index) => (
                     <th key={`subject-${index}`} scope="col">
@@ -174,7 +180,7 @@ function AdmissionTicketCard({
                 </tr>
                 <tr>
                   <th className="ticket-row-label" scope="row">
-                    Thời gian có mặt tại Phòng thi
+                    Thời gian có mặt tại Phòng thi thử
                   </th>
                   {result.schedule.map((entry, index) => (
                     <td
@@ -187,7 +193,7 @@ function AdmissionTicketCard({
                 </tr>
                 <tr>
                   <th className="ticket-row-label" scope="row">
-                    Phòng thi
+                    Phòng thi thử
                   </th>
                   {result.schedule.map((entry, index) => (
                     <td key={`room-${index}`} className="ticket-room-cell">
@@ -212,15 +218,15 @@ function AdmissionTicketCard({
             <div className="ticket-note-list">
               <p>
                 - Thí sinh vui lòng in <strong>GIẤY BÁO THI THỬ</strong> và mang
-                theo khi đi thi.
+                theo khi đi thi thử.
               </p>
               <p>
-                - Để đảm bảo kỳ thi diễn ra suôn sẻ, thí sinh cần có mặt{' '}
-                <strong>trước giờ thi ít nhất 30 phút</strong>, mang theo{' '}
+                - Để đảm bảo kỳ thi thử diễn ra suôn sẻ, thí sinh cần có mặt{' '}
+                <strong>trước giờ thi thử ít nhất 30 phút</strong>, mang theo{' '}
                 <span className="ticket-note-emphasis">giấy báo thi thử</span>.
               </p>
               <p>
-                - Thí sinh có đăng ký dự thi môn Tiếng Anh{' '}
+                - Thí sinh có đăng ký dự thi thử môn Tiếng Anh{' '}
                 <span className="ticket-note-emphasis">
                   (Chuyên và Không chuyên)
                 </span>
@@ -228,9 +234,9 @@ function AdmissionTicketCard({
                 nghiệm.
               </p>
               <p>
-                - Đề thi, đáp án và kết quả sẽ được công bố{' '}
+                - Đề thi thử, đáp án và kết quả sẽ được công bố{' '}
                 <strong>
-                  trong vòng 10 ngày làm việc kể từ ngày kết thúc kỳ thi
+                  trong vòng 10 ngày làm việc kể từ ngày kết thúc kỳ thi thử
                 </strong>
                 , tại Fanpage Trung tâm Phát triển Năng lực Người học (PTNK-Hub):{' '}
                 <a
@@ -243,9 +249,10 @@ function AdmissionTicketCard({
                 </a>
               </p>
               <p>
-                - Phụ huynh và học sinh có thể đến nhận lại bài thi trong vòng 03
-                ngày: 8g00-20g00 ngày 10, 11 và 12/4/2026. Trung tâm không giải
-                quyết các trường hợp nhận lại bài thi ngoài khung thời gian trên.
+                - Phụ huynh và học sinh có thể đến nhận lại bài thi thử trong
+                vòng 03 ngày: 8g00-20g00 ngày 10, 11 và 12/4/2026. Trung tâm
+                không giải quyết các trường hợp nhận lại bài thi thử ngoài khung
+                thời gian trên.
               </p>
             </div>
 
