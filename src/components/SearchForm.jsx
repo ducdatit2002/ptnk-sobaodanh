@@ -216,7 +216,7 @@ function SearchForm({
             value={formValues.citizenId}
             onBlur={handleBlur}
             onChange={handleChange}
-            placeholder="Nhập số điện thoại (không bắt buộc)"
+            placeholder="Nhập số điện thoại đăng ký"
             autoComplete="off"
             disabled={isBusy}
             className={`w-full rounded-2xl border px-4 py-3 text-base outline-none transition ${disabledControlClass} ${

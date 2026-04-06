@@ -202,7 +202,7 @@ function TestApp() {
                         isDarkMode ? 'text-white' : 'text-slate-900'
                       }`}
                     >
-                      Họ tên + Số điện thoại (nếu có)
+                      Họ tên + Số điện thoại đăng ký
                     </p>
                   </div>
                 </div>
